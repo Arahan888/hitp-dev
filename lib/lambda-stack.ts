@@ -1,6 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as lambda from  'aws-cdk-lib/aws-lambda';
+import * as ec2 from  'aws-cdk-lib/aws-ec2';
+import * as iam from 'aws-cdk-lib/aws-iam';
+
 
 export class lambdaStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -15,23 +18,35 @@ export class lambdaStack extends cdk.Stack {
     //     functionName: 'testlambda',
     //     //vpc:getExistingVpc
     //   });
-  
-    const demolambda = new lambda.Function(this, 'LambdaFunction', {
-      runtime: lambda.Runtime.NODEJS_14_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
+    const getExistingVpc = ec2.Vpc.fromVpcAttributes(this, 'HITP-SIT', {
+      vpcId: 'vpc-02fc0d615095bb7ad',
+      availabilityZones: ['ap-southeast-1a', 'ap-southeast-1b']
+    
     });
 
-      // const lambdaretrievevitals = new lambda.Function(this, 'lambdaretrievevitalsid', {
-      //   handler:'lambda_retrievevitals.retrievevitals',
-      //   runtime: lambda.Runtime.PYTHON_3_11,
-      //   code: lambda.Code.fromAsset('./services/'),
-      //   functionName: 'lambdaretrievevitals',
-      //   //handler: 'index.handler',
-      //   //code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
-      //   //role: lambdaVPCExecutionRole,
-      //   //vpc:getExistingVpc
-      // });
+    // const demolambda = new lambda.Function(this, 'LambdaFunction', {
+    //   runtime: lambda.Runtime.NODEJS_14_X,
+    //   handler: 'index.handler',
+    //   code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
+    // });
+    const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaVPCExecutionRole`, {
+      roleName        : `lambdaVPCExecutionRole`,
+      assumedBy       : new iam.ServicePrincipal(`lambda.amazonaws.com`),
+      description     : `Lambda service role to operate within a VPC`,
+  });
+  lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
+  lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaVPCAccessExecutionRole"));
+
+      const lambdaretrievevitals = new lambda.Function(this, 'lambdaretrievevitalsid', {
+        handler:'lambda_retrievevitals.retrievevitals',
+        runtime: lambda.Runtime.PYTHON_3_11,
+        code: lambda.Code.fromAsset('./services/'),
+        functionName: 'lambdaretrievevitals',
+        //handler: 'index.handler',
+        //code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
+        role: lambdaVPCExecutionRole,
+        vpc:getExistingVpc
+      });
 
     }
 }     
