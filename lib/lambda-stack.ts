@@ -18,20 +18,20 @@ export class lambdaStack extends cdk.Stack {
     //     functionName: 'testlambda',
     //     //vpc:getExistingVpc
     //   });
-    const getExistingVpc = ec2.Vpc.fromLookup(this, "VPC", { vpcName: "HITP-SIT" });
+    //const getExistingVpc = ec2.Vpc.fromLookup(this, "VPC", { vpcName: "HITP-SIT" });
 
     // const demolambda = new lambda.Function(this, 'LambdaFunction', {
     //   runtime: lambda.Runtime.NODEJS_14_X,
     //   handler: 'index.handler',
     //   code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
     // });
-    const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaVPCExecutionRole`, {
-      roleName        : `lambdaVPCExecutionRole`,
-      assumedBy       : new iam.ServicePrincipal(`lambda.amazonaws.com`),
-      description     : `Lambda service role to operate within a VPC`,
-  });
-  lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
-  lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaVPCAccessExecutionRole"));
+  //   const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaVPCExecutionRole`, {
+  //     roleName        : `lambdaVPCExecutionRole`,
+  //     assumedBy       : new iam.ServicePrincipal(`lambda.amazonaws.com`),
+  //     description     : `Lambda service role to operate within a VPC`,
+  // });
+  // lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
+  // lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaVPCAccessExecutionRole"));
 
 
 
@@ -43,8 +43,8 @@ export class lambdaStack extends cdk.Stack {
         functionName: 'lambdaretrievevitals',
         //handler: 'index.handler',
         //code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
-        role: lambdaVPCExecutionRole,
-        vpc:getExistingVpc
+        //role: lambdaVPCExecutionRole,
+        //vpc:getExistingVpc
       });
 
     }
