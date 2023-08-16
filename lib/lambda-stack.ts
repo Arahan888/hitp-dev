@@ -12,7 +12,7 @@ export interface HITPStackProps extends cdk.StackProps {
 export class lambdaStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: HITPStackProps) {
       super(scope, id, props);
-      const stage = props?.stage || 'default';
+      const stagename = props?.stage || 'default';
 
           //Lambda Function 
     // const lambdatest = new lambda.Function(this, 'testlogicalid', {
@@ -40,11 +40,11 @@ export class lambdaStack extends cdk.Stack {
 
 
   
-      const lambdaretrievevitals = new lambda.Function(this, 'lambdaretrievevitalsid', {
+      const lambdaretrievevitals = new lambda.Function(this, `lambdaretrievevitalsid-${stagename}`, {
         handler:'lambda_retrievevitals.retrievevitals',
         runtime: lambda.Runtime.PYTHON_3_11,
         code: lambda.Code.fromAsset('./services/'),
-        functionName: stage+'lambdaretrievevitals',
+        functionName: `lambdaretrievevitals-${stagename}`,
 
         //handler: 'index.handler',
         //code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
