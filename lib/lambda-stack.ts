@@ -5,10 +5,14 @@ import * as ec2 from  'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
 
-export class lambdaStack extends cdk.Stack {
-    constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-      super(scope, id, props);
+export interface HITPStackProps extends cdk.StackProps {
+  readonly stage: string;
+}
 
+export class lambdaStack extends cdk.Stack {
+    constructor(scope: Construct, id: string, props?: HITPStackProps) {
+      super(scope, id, props);
+      const stage = props?.stage || 'default';
 
           //Lambda Function 
     // const lambdatest = new lambda.Function(this, 'testlogicalid', {
@@ -40,7 +44,7 @@ export class lambdaStack extends cdk.Stack {
         handler:'lambda_retrievevitals.retrievevitals',
         runtime: lambda.Runtime.PYTHON_3_11,
         code: lambda.Code.fromAsset('./services/'),
-        functionName: 'lambdaretrievevitals',
+        functionName: stage+'lambdaretrievevitals',
 
         //handler: 'index.handler',
         //code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
