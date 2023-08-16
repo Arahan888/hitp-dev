@@ -20,8 +20,10 @@ export class lambdaStack extends cdk.Stack {
       const lambdaretrievevitals = new lambda.Function(this, 'lambdaretrievevitalsid', {
         handler:'lambda_retrievevitals.retrievevitals',
         runtime: lambda.Runtime.PYTHON_3_11,
-        code: lambda.Code.fromAsset('../services/'),
+        code: lambda.Code.fromAsset('./services/'),
         functionName: 'lambdaretrievevitals',
+        //handler: 'index.handler',
+        //code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
         //role: lambdaVPCExecutionRole,
         //vpc:getExistingVpc
       });

@@ -18,13 +18,13 @@ export class HitpDevStack extends cdk.Stack {
     });
 
     const testingStage = hitppipeline.addStage(new PipelineAppStage(this, 'test', {
-      env: { account: '196715057542', region: 'us-east-1' }
+      env: { account: '612547137591', region: 'ap-southeast-1' }
     }));
 
     testingStage.addPost(new ManualApprovalStep('approval'));
 
     const prodStage = hitppipeline.addStage(new PipelineAppStage(this, 'prod', {
-      env: { account: '196715057542', region: 'us-east-1' }
+      env: { account: '612547137591', region: 'ap-southeast-1' }
     }));
   }
 }
