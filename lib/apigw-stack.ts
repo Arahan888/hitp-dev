@@ -24,10 +24,10 @@ export class apigwStack extends cdk.Stack {
         restApiName: 'HITPRetrieveAPI-'+stagename,
         deploy: true,
         proxy: false,
-      
+        
   
       })
-      const vitals = HITPRetrieveAPI.root.addResource('vitals');
+      const vitals = HITPRetrieveAPI.root.addResource('vitals-'+stagename);
       vitals.addMethod('GET');
   
   
