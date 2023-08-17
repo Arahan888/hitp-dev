@@ -29,13 +29,13 @@ export class lambdaStack extends cdk.Stack {
     //   handler: 'index.handler',
     //   code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
     // });
-  //   const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaVPCExecutionRole`, {
-  //     roleName        : `lambdaVPCExecutionRole`,
-  //     assumedBy       : new iam.ServicePrincipal(`lambda.amazonaws.com`),
-  //     description     : `Lambda service role to operate within a VPC`,
-  // });
-  // lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
-  // lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaVPCAccessExecutionRole"));
+    const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaVPCExecutionRole-${stagename}`, {
+      roleName        : `lambdaVPCExecutionRole-${stagename}`,
+      assumedBy       : new iam.ServicePrincipal(`lambda.amazonaws.com`),
+      description     : `Lambda service role to operate within a VPC`,
+  });
+  lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
+  lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaVPCAccessExecutionRole"));
 
 
 
@@ -48,7 +48,7 @@ export class lambdaStack extends cdk.Stack {
 
         //handler: 'index.handler',
         //code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
-        //role: lambdaVPCExecutionRole,
+        role: lambdaVPCExecutionRole,
         //vpc:getExistingVpc
       });
 
