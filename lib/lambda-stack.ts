@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import * as lambda from  'aws-cdk-lib/aws-lambda';
 import * as ec2 from  'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
-
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 
 export interface HITPStackProps extends cdk.StackProps {
   readonly stage: string;
@@ -51,6 +51,14 @@ export class lambdaStack extends cdk.Stack {
         role: lambdaVPCExecutionRole,
         //vpc:getExistingVpc
       });
+
+
+    //Cloudwatch Alarms
+    const cloudwatchlambda = new cloudwatch.Alarm(this, 'cloudwatchlambdaid',{
+      evaluationPeriods:1,
+      threshold:1,
+      metric:lambdaretrievevitals.metricErrors()
+    });
 
     }
 }     
