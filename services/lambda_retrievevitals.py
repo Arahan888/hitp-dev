@@ -3,7 +3,7 @@ import boto3
 client = boto3.client('s3')
 
 def retrievevitals(event, context):
-    response = client.get_object( Bucket='s3unittestdata-test', Key='Test.json')
+    response = client.get_object( Bucket='s3unittestdata-prod', Key='Test.json')
 
     #convert from streaming data to byte
     data_byte = response['Body'].read()
