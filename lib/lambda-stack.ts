@@ -25,9 +25,10 @@ export class lambdaStack extends cdk.Stack {
    // const getExistingVpc = ec2.Vpc.fromLookup(this, `VPC`, { vpcName: `HITP-test` });
 
    const getExistingVpc = ec2.Vpc.fromVpcAttributes(this, 'HITP-test', {
-    vpcId:'vpc-004d47910b7828d4b',
+    vpcId:'vpc-0b828649733458d5a',
     availabilityZones: ['ap-southeast-1a','ap-southeast-1b','ap-southeast-1c'],
-    publicSubnetIds: ['subnet-0b0364ac00c60598f','subnet-02e3efcce7320ece7','subnet-02f8738f3c3387c69']
+   // publicSubnetIds: ['subnet-0183c2e0f5154e250','subnet-0a434094a9bbfe3b3','subnet-0bc0da1e916e56521']
+    privateSubnetIds: ['subnet-030dc571a75a456fe','subnet-0cb1831be44095ed8','subnet-008b54d4205875805']
 });
 
     // const demolambda = new lambda.Function(this, 'LambdaFunction', {
@@ -53,7 +54,7 @@ export class lambdaStack extends cdk.Stack {
         functionName: `lambdaretrievevitals-${stagename}`,
         role: lambdaVPCExecutionRole,
         vpc:getExistingVpc,
-
+       // allowPublicSubnet:true,
         environment: {
           ENV: stagename,
           S3Bucket: "s3unittestdata-"+stagename,
