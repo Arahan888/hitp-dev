@@ -49,7 +49,12 @@ export class lambdaStack extends cdk.Stack {
         //handler: 'index.handler',
         //code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
         role: lambdaVPCExecutionRole,
-        //vpc:getExistingVpc
+        //vpc:getExistingVpc,
+
+        environment: {
+          ENV: stagename,
+          S3Bucket: "s3unittestdata-"+stagename,
+        }
       });
 
 
