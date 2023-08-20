@@ -1,4 +1,5 @@
 {
+  
   "vpc-provider:account=612547137591:filter.tag:Name=HITP-SIT:region=ap-southeast-1:returnAsymmetricSubnets=true": {
     "vpcId": "vpc-02fc0d615095bb7ad",
     "vpcCidrBlock": "10.0.0.0/16",
