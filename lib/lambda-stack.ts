@@ -22,7 +22,7 @@ export class lambdaStack extends cdk.Stack {
     //     functionName: 'testlambda',
     //     //vpc:getExistingVpc
     //   });
-    //const getExistingVpc = ec2.Vpc.fromLookup(this, "VPC", { vpcName: "HITP-SIT" });
+    const getExistingVpc = ec2.Vpc.fromLookup(this, "VPC-"+stagename, { vpcName: "HITP-"+stagename });
 
     // const demolambda = new lambda.Function(this, 'LambdaFunction', {
     //   runtime: lambda.Runtime.NODEJS_14_X,
@@ -46,7 +46,7 @@ export class lambdaStack extends cdk.Stack {
         code: lambda.Code.fromAsset('./services/'),
         functionName: `lambdaretrievevitals-${stagename}`,
         role: lambdaVPCExecutionRole,
-        //vpc:getExistingVpc,
+        vpc:getExistingVpc,
 
         environment: {
           ENV: stagename,
