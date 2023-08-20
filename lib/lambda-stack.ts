@@ -23,7 +23,7 @@ export class lambdaStack extends cdk.Stack {
     //     functionName: 'testlambda',
     //     //vpc:getExistingVpc
     //   });
-   const getExistingVpc = ec2.Vpc.fromLookup(this, `VPC-${stagename}`, { vpcName: `HITP-test` });
+   const getExistingVpc = ec2.Vpc.fromLookup(this, `VPC-${stagename}`, { vpcName: `HITP-${stagename}` });
   
 //    const getExistingTestVpc = ec2.Vpc.fromVpcAttributes(this, 'HITP-test', {
 //     vpcId:'vpc-0b828649733458d5a',
