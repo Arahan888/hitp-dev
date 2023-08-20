@@ -11,7 +11,7 @@ export class PipelineAppStage extends Stage {
   constructor(scope: Construct, id: string, props: StageProps) {
       super(scope, id, props);
   
-      const HitpvpcStack = new vpcStack(this, 'VPCStack' , {stage:id});   
+      //const HitpvpcStack = new vpcStack(this, 'VPCStack' , {stage:id});   
       const HitplambdaStack = new lambdaStack(this, 'LambdaStack' , {stage:id});      
       const Hitps3Stack = new s3Stack(this, 'S3Stack' , {stage:id});    
       const HitpapigwStack = new apigwStack(this, 'ApigwStack' , {stage:id});    
