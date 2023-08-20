@@ -24,7 +24,7 @@ export class lambdaStack extends cdk.Stack {
     //   });
    // const getExistingVpc = ec2.Vpc.fromLookup(this, `VPC`, { vpcName: `HITP-test` });
 
-   const DefaultVpc = ec2.Vpc.fromVpcAttributes(this, 'HITP-test', {
+   const getExistingVpc = ec2.Vpc.fromVpcAttributes(this, 'HITP-test', {
     vpcId:'vpc-004d47910b7828d4b',
     availabilityZones: ['ap-southeast-1a','ap-southeast-1b','ap-southeast-1c'],
     publicSubnetIds: ['subnet-0b0364ac00c60598f','subnet-02e3efcce7320ece7','subnet-02f8738f3c3387c69']
@@ -52,7 +52,7 @@ export class lambdaStack extends cdk.Stack {
         code: lambda.Code.fromAsset('./services/'),
         functionName: `lambdaretrievevitals-${stagename}`,
         role: lambdaVPCExecutionRole,
-       // vpc:getExistingVpc,
+        vpc:getExistingVpc,
 
         environment: {
           ENV: stagename,
