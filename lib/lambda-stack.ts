@@ -40,10 +40,7 @@ export class lambdaStack extends cdk.Stack {
 //   privateSubnetIds: ['subnet-0899e8ad5dfd40e1b','subnet-04b7d85280c5a1700','subnet-068db935ab09e8e4d']
 // });
 
-   new cdkcore.CfnCondition(this, "UseProdVPC", {
-    expression: cdk.Fn.conditionEquals(stagename, "prod")
-  });
-  
+
   // const bucketName = cdkcore.Fn.conditionIf(
   //   "UseProdVPC",
   //   const prodVPC = getExistingVpc,
@@ -66,22 +63,23 @@ export class lambdaStack extends cdk.Stack {
     //   handler: 'index.handler',
     //   code: lambda.Code.fromInline('exports.handler = _ => "Hello, CDK";')
     // });
-    const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaVPCExecutionRole-${stagename}`, {
-      roleName        : `lambdaVPCExecutionRole-${stagename}`,
+    const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaRetrieveExecutionRole-${stagename}`, {
+      roleName        : `lambdaRetrieveExecutionRole-${stagename}`,
       assumedBy       : new iam.ServicePrincipal(`lambda.amazonaws.com`),
       description     : `Lambda service role to operate within a VPC`,
   });
   lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
+  lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
   lambdaVPCExecutionRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaVPCAccessExecutionRole"));
 
 
 
   
-      const lambdaretrievevitals = new lambda.Function(this, `lambdaretrievevitalsid-${stagename}`, {
+      const lambdaretrievevitals = new lambda.Function(this, `lambdaretrievepatientvitalsid-${stagename}`, {
         handler:'lambda_retrievevitals.retrievevitals',
         runtime: lambda.Runtime.PYTHON_3_11,
         code: lambda.Code.fromAsset('./services/'),
-        functionName: `lambdaretrievevitals-${stagename}`,
+        functionName: `lambdaretrievepatientvitals-${stagename}`,
         role: lambdaVPCExecutionRole,
        // vpc:getExistingTestVpc,
        vpc: getExistingVpc,

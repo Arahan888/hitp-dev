@@ -1,0 +1,75 @@
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as appScaling from 'aws-cdk-lib/aws-applicationautoscaling';
+
+export interface HITPStackProps extends cdk.StackProps {
+    readonly stage: string;
+  }
+  
+  export class dynamodbStack extends cdk.Stack {
+      constructor(scope: Construct, id: string, props?: HITPStackProps) {
+        super(scope, id, props);
+        const stagename = props?.stage || 'default';
+  
+  
+    
+      //Dynamo table for Audit
+      const dynamodbAudit = new dynamodb.Table(this, 'audittableid-'+stagename, {
+        readCapacity:3,
+        writeCapacity:3,
+        partitionKey:{name:'actionid',type:dynamodb.AttributeType.NUMBER},
+        tableName: 'audittable-'+stagename,
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+      });
+    
+      const readAuditScaling = dynamodbAudit.autoScaleReadCapacity({ minCapacity: 1, maxCapacity: 10 })
+      readAuditScaling.scaleOnUtilization({
+        targetUtilizationPercent: 65
+      })
+      const writeAuditScaling = dynamodbAudit.autoScaleWriteCapacity({ minCapacity: 1, maxCapacity: 10 })
+      writeAuditScaling.scaleOnUtilization({
+        targetUtilizationPercent: 65
+      })
+      writeAuditScaling.scaleOnSchedule('ScaleUpInMorning', {
+        schedule: appScaling.Schedule.cron({hour: '5', minute: '30'}),
+        maxCapacity: 10,
+        minCapacity: 5,
+      })
+      writeAuditScaling.scaleOnSchedule('ScaleDownInNight', {
+        schedule: appScaling.Schedule.cron( { hour: '00', minute: '00' }),
+        maxCapacity: 5,
+        minCapacity: 1,
+      })
+  
+
+      //Dynamo table for Audit
+      const dynamodbPatientVitals = new dynamodb.Table(this, 'patientvitalstableid-'+stagename, {
+        readCapacity:3,
+        writeCapacity:3,
+        partitionKey:{name:'nric',type:dynamodb.AttributeType.STRING},
+        tableName: 'patientvitalstable-'+stagename,
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+      });
+    
+      const readVitalsScaling = dynamodbPatientVitals.autoScaleReadCapacity({ minCapacity: 1, maxCapacity: 10 })
+      readVitalsScaling.scaleOnUtilization({
+        targetUtilizationPercent: 65
+      })
+      const writeVitalsScaling = dynamodbPatientVitals.autoScaleWriteCapacity({ minCapacity: 1, maxCapacity: 10 })
+      writeVitalsScaling.scaleOnUtilization({
+        targetUtilizationPercent: 65
+      })
+      writeVitalsScaling.scaleOnSchedule('ScaleUpInMorning', {
+        schedule: appScaling.Schedule.cron({hour: '5', minute: '30'}),
+        maxCapacity: 10,
+        minCapacity: 5,
+      })
+      writeVitalsScaling.scaleOnSchedule('ScaleDownInNight', {
+        schedule: appScaling.Schedule.cron( { hour: '00', minute: '00' }),
+        maxCapacity: 5,
+        minCapacity: 1,
+      })
+
+      }
+  }     

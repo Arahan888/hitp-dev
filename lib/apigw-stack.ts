@@ -14,12 +14,12 @@ export class apigwStack extends cdk.Stack {
 
 
   
-    const getExistingLambda = lambda.Function.fromFunctionName(this, "existingLambda", "lambdaretrievevitals-"+stagename);
+    const getExistingLambda = lambda.Function.fromFunctionName(this, "existingLambda", "lambdaretrievepatientvitals-"+stagename);
 
     //API Gateway
-    const HITPRetrieveAPI = new apigw.LambdaRestApi(this, 'hitpretrieveapiid-'+stagename, {
+    const HITPRetrieveAPI = new apigw.LambdaRestApi(this, 'hitpretrievepatientvitalsapiid-'+stagename, {
         handler: getExistingLambda,
-        restApiName: 'HITPRetrieveAPI-'+stagename,
+        restApiName: 'HITPRetrievePatientVitalsAPI-'+stagename,
         deploy: true,
         proxy: false,
         
