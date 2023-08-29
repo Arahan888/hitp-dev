@@ -44,11 +44,12 @@ export interface HITPStackProps extends cdk.StackProps {
   
 
       //Dynamo table for Audit
-      const dynamodbPatientVitals = new dynamodb.Table(this, 'patientvitalstableid-'+stagename, {
+      const dynamodbPatientVitals = new dynamodb.Table(this, 'patientvitalsid-'+stagename, {
         readCapacity:3,
         writeCapacity:3,
-        partitionKey:{name:'nric',type:dynamodb.AttributeType.STRING},
-        tableName: 'patientvitalstable-'+stagename,
+        partitionKey:{name:'NRIC',type:dynamodb.AttributeType.STRING},
+        sortKey:{name:'TimeTaken',type:dynamodb.AttributeType.STRING},
+        tableName: 'patientvitals-'+stagename,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
       });
     

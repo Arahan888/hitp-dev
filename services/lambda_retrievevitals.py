@@ -1,6 +1,7 @@
 import json
 import boto3
 import os
+dynamodb = boto3.resource('dynamodb')
   
 client = boto3.client('s3')
 
@@ -13,8 +14,8 @@ def retrievevitals(event, context):
     #convert from bytes to strings
     data_string = data_byte.decode("UTF-8")
     #convert from json string to dictionary
-    data_dict = json.loads(data_string)
-    s3Bucket = os.environ['AWS_REGION']
+
+
     return {
         'statusCode':200,
         'body': json.dumps(data_string),
