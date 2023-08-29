@@ -12,14 +12,6 @@ def savevitals(event, context):
     # json_data = response['Body'].read()
 
     json_data = event.get('payload')
-    #print(json_data)
-    #print(type(json_data))
-    #convert data from byte to string
-    data_string = json_data.decode('UTF-8')
-    print(data_string)
-    #print(type(data_string))
-    # convert from json string to dictionary
-    data_dict =json.loads(data_string)
 
     
     #insert data to dynamodb
