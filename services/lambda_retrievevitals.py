@@ -1,25 +1,34 @@
 import json
 import boto3
-import os
+from boto3.dynamodb.conditions import Key
+import os   
 dynamodb = boto3.resource('dynamodb')
   
-client = boto3.client('s3')
-
 def retrievevitals(event, context):
-    s3Bucket = os.environ['S3Bucket']
-    response = client.get_object( Bucket=s3Bucket, Key='Test.json')
+
+    DynamoDBName = os.environ['DynamoDB']
+    #response = client.get_object( Bucket=s3Bucket, Key='Test.json')
 
     #convert from streaming data to byte
-    data_byte = response['Body'].read()
+    #data_byte = response['Body'].read()
     #convert from bytes to strings
-    data_string = data_byte.decode("UTF-8")
+    #data_string = data_byte.decode("UTF-8")
     #convert from json string to dictionary
+    table = dynamodb.Table(DynamoDBName)
+    
+    #data = table.get_item(Key={'NRIC':'S1234567A','TimeTaken':'2023-08-25 19:00:00'})
+    
+    data = table.query(
+        KeyConditionExpression=Key('NRIC').eq('S1234567A')
+    )
 
-
-    return {
-        'statusCode':200,
-        'body': json.dumps(data_string),
-        'headers' : {'Content-Type': 'application/json'},
-
-
+    response = {
+        'statusCode': 200,
+        'body': json.dumps(data),
+        'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        },
     }
+    
+    return response
