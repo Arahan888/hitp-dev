@@ -79,12 +79,37 @@ export class lambdaStack extends cdk.Stack {
 
 
 
-    //Cloudwatch Alarms
-    const cloudwatchlambda = new cloudwatch.Alarm(this, 'cloudwatchlambdaid',{
-      evaluationPeriods:1,
-      threshold:1,
-      metric:lambdaretrievevitals.metricErrors()
+
+
+
+    const lambdavitals = new lambda.Function(this, `lambdapatientvitalsid-${stagename}`, {
+      handler:'lambda_vitals.vitals',
+      runtime: lambda.Runtime.PYTHON_3_11,
+      code: lambda.Code.fromAsset('./services/'),
+      functionName: `lambdapatientvitals-${stagename}`,
+      role: lambdaVPCExecutionRole,
+     // vpc:getExistingTestVpc,
+     vpc: getExistingVpc,
+     vpcSubnets: getExistingVpc.selectSubnets({
+      subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+    }),
+     // allowPublicSubnet:true,
+      environment: {
+        ENV: stagename,
+        S3Bucket: "s3unittestdata-"+stagename,
+        DynamoDB: "patientvitals-"+stagename,
+      }
     });
+
+
+
+  //Cloudwatch Alarms
+  const cloudwatchlambda = new cloudwatch.Alarm(this, 'cloudwatchlambdavitalsid-'+stagename,{
+    evaluationPeriods:1,
+    threshold:1,
+    metric:lambdavitals.metricErrors()
+  });
+
 
     }
 }     
