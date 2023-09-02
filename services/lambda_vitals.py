@@ -39,12 +39,12 @@ def vitals(event, contest):
     #clientdata_dict = json.loads(json_data.read().decode('utf-8'))
 
     #print(json_data['NRIC'])
-    #if httpMethod == 'Get':
-    response = getVitals(vitals_data['NRIC'])
-    #elif httpMethod == 'Put' :
-    #    response = saveVitals(json_data)
-    #else:
-    #    response = buildResponse(404, 'Not Found')
+    if httpMethod == 'Get':
+        response = getVitals(vitals_data['NRIC'])
+    elif httpMethod == 'Put' :
+        response = saveVitals(json_data)
+    else:
+        response = buildResponse(404, 'Operation Not Found')
 
     return response
 
