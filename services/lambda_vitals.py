@@ -29,20 +29,22 @@ patientPath = '/student'
 def vitals(event, contest):
 
    # logger.info(event)
-    httpMethod = event.get('operation')
-    #path = event['path']
+    #httpMethod = event.get('operation')
+    path = event['path']
 
-    json_data = event.get('payload')
+    json_data = json.loads(event['body'])
+    httpMethod = json_data['operation']
+    vitals_data = json_data['payload']
     
     #clientdata_dict = json.loads(json_data.read().decode('utf-8'))
 
-    print(json_data['NRIC'])
-    if httpMethod == 'Get':
-        response = getVitals(json_data['NRIC'])
-    elif httpMethod == 'Put' :
-        response = saveVitals(json_data)
-    else:
-        response = buildResponse(404, 'Not Found')
+    #print(json_data['NRIC'])
+    #if httpMethod == 'Get':
+    response = getVitals(vitals_data['NRIC'])
+    #elif httpMethod == 'Put' :
+    #    response = saveVitals(json_data)
+    #else:
+    #    response = buildResponse(404, 'Not Found')
 
     return response
 
