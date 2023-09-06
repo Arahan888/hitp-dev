@@ -42,7 +42,9 @@ def vitals(event, contest):
     if httpMethod == 'Get':
         response = getVitals(vitals_data['NRIC'])
     elif httpMethod == 'Put' :
-        response = saveVitals(json_data)
+        response = saveVitals(vitals_data)
+    elif httpMethod == 'Test' :
+        response = print('Test')
     else:
         response = buildResponse(404, 'Operation Not Found')
 
