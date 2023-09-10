@@ -15,7 +15,7 @@ export class apigwStack extends cdk.Stack {
 
   
     const PatientVitalsLambda = lambda.Function.fromFunctionName(this, "patientvitalsLambda", "lambdapatientvitals-"+stagename);
-    const RetrieveVitalsLambda = lambda.Function.fromFunctionName(this, "retrievevitalsLambda", "lambdaretrievepatientvitals-"+stagename);
+    const PatientDetailsLambda = lambda.Function.fromFunctionName(this, "patientdetailsLambda", "lambdapatientdetails-"+stagename);
 
     //API Gateway
     const HITPVitalsAPI = new apigw.LambdaRestApi(this, 'hitppatientvitalsapiid-'+stagename, {
@@ -30,16 +30,28 @@ export class apigwStack extends cdk.Stack {
       vitals.addMethod('POST');
       //vitals.addMethod('PUT');
   
-      const HITPRetrieveVitalsAPI = new apigw.LambdaRestApi(this, 'hitpretrievepatientvitalsapiid-'+stagename, {
-        handler: RetrieveVitalsLambda,
-        restApiName: 'HITPRetrievePatientVitalsAPI-'+stagename,
+      const HITPPatientDetailsAPI = new apigw.LambdaRestApi(this, 'hitppatientdetailsapiid-'+stagename, {
+        handler: PatientDetailsLambda,
+        restApiName: 'HITPPatientDetailsAPI-'+stagename,
         deploy: true,
         proxy: false,
         
   
       })
-      const savevitals = HITPRetrieveVitalsAPI.root.addResource('vitals');
-      savevitals.addMethod('GET');      
+      const pxdetails = HITPPatientDetailsAPI.root.addResource('patientdetails');
+      pxdetails.addMethod('POST');
+      //vitals.addMethod('PUT');
+
+      // const HITPRetrieveVitalsAPI = new apigw.LambdaRestApi(this, 'hitpretrievepatientvitalsapiid-'+stagename, {
+      //   handler: RetrieveVitalsLambda,
+      //   restApiName: 'HITPRetrievePatientVitalsAPI-'+stagename,
+      //   deploy: true,
+      //   proxy: false,
+        
+  
+      // })
+      // const savevitals = HITPRetrieveVitalsAPI.root.addResource('vitals');
+      // savevitals.addMethod('GET');      
 
     
   }     

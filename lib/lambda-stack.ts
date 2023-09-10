@@ -38,46 +38,44 @@ export class lambdaStack extends cdk.Stack {
 
 
   
-      const lambdaretrievevitals = new lambda.Function(this, `lambdaretrievepatientvitalsid-${stagename}`, {
-        handler:'lambda_retrievevitals.retrievevitals',
-        runtime: lambda.Runtime.PYTHON_3_11,
-        code: lambda.Code.fromAsset('./services/'),
-        functionName: `lambdaretrievepatientvitals-${stagename}`,
-        role: lambdaVPCExecutionRole,
-       // vpc:getExistingTestVpc,
-      vpc: getExistingVpc,
-      vpcSubnets: getExistingVpc.selectSubnets({
-       subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-     }),
-       // allowPublicSubnet:true,
-        environment: {
-          ENV: stagename,
-          S3Bucket: "s3unittestdata-"+stagename,
-          DynamoDB: "patientvitals-"+stagename
-        }
-      });
+    //   const lambdaretrievevitals = new lambda.Function(this, `lambdaretrievepatientvitalsid-${stagename}`, {
+    //     handler:'lambda_retrievevitals.retrievevitals',
+    //     runtime: lambda.Runtime.PYTHON_3_11,
+    //     code: lambda.Code.fromAsset('./services/'),
+    //     functionName: `lambdaretrievepatientvitals-${stagename}`,
+    //     role: lambdaVPCExecutionRole,
+    //    // vpc:getExistingTestVpc,
+    //   vpc: getExistingVpc,
+    //   vpcSubnets: getExistingVpc.selectSubnets({
+    //    subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+    //  }),
+    //    // allowPublicSubnet:true,
+    //     environment: {
+    //       ENV: stagename,
+    //       S3Bucket: "s3unittestdata-"+stagename,
+    //       DynamoDB: "patientvitals-"+stagename
+    //     }
+    //   });
 
 
-      const lambdasavevitals = new lambda.Function(this, `lambdasavepatientvitalsid-${stagename}`, {
-        handler:'lambda_savevitals.savevitals',
-        runtime: lambda.Runtime.PYTHON_3_11,
-        code: lambda.Code.fromAsset('./services/'),
-        functionName: `lambdasavepatientvitals-${stagename}`,
-        role: lambdaVPCExecutionRole,
-       // vpc:getExistingTestVpc,
-       vpc: getExistingVpc,
-       vpcSubnets: getExistingVpc.selectSubnets({
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-      }),
-       // allowPublicSubnet:true,
-        environment: {
-          ENV: stagename,
-          S3Bucket: "s3unittestdata-"+stagename,
-          DynamoDB: "patientvitals-"+stagename,
-        }
-      });
-
-
+    //   const lambdasavevitals = new lambda.Function(this, `lambdasavepatientvitalsid-${stagename}`, {
+    //     handler:'lambda_savevitals.savevitals',
+    //     runtime: lambda.Runtime.PYTHON_3_11,
+    //     code: lambda.Code.fromAsset('./services/'),
+    //     functionName: `lambdasavepatientvitals-${stagename}`,
+    //     role: lambdaVPCExecutionRole,
+    //    // vpc:getExistingTestVpc,
+    //    vpc: getExistingVpc,
+    //    vpcSubnets: getExistingVpc.selectSubnets({
+    //     subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+    //   }),
+    //    // allowPublicSubnet:true,
+    //     environment: {
+    //       ENV: stagename,
+    //       S3Bucket: "s3unittestdata-"+stagename,
+    //       DynamoDB: "patientvitals-"+stagename,
+    //     }
+    //   });
 
 
 
@@ -101,14 +99,39 @@ export class lambdaStack extends cdk.Stack {
       }
     });
 
-
-
-  //Cloudwatch Alarms
+      //Cloudwatch Alarms
   const cloudwatchlambda = new cloudwatch.Alarm(this, 'cloudwatchlambdavitalsid-'+stagename,{
     evaluationPeriods:1,
     threshold:1,
-    metric:lambdavitals.metricErrors()
+    metric:lambdavitals.metricErrors(), 
   });
+
+    const lambdapatientdetails = new lambda.Function(this, `lambdapatientdetailsid-${stagename}`, {
+      handler:'lambda_patientdetails.patientdetails',
+      runtime: lambda.Runtime.PYTHON_3_11,
+      code: lambda.Code.fromAsset('./services/'),
+      functionName: `lambdapatientdetails-${stagename}`,
+      role: lambdaVPCExecutionRole,
+     // vpc:getExistingTestVpc,
+     vpc: getExistingVpc,
+     vpcSubnets: getExistingVpc.selectSubnets({
+      subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+    }),
+     // allowPublicSubnet:true,
+      environment: {
+        ENV: stagename,
+        S3Bucket: "s3unittestdata-"+stagename,
+        DynamoDB: "patientdetails-"+stagename,
+      }
+    });
+
+  //Cloudwatch Alarms
+  const cloudwatchpatientlambda = new cloudwatch.Alarm(this, 'cloudwatchpatientlambdaid-'+stagename,{
+    evaluationPeriods:1,
+    threshold:1,
+    metric:lambdapatientdetails.metricErrors(), 
+  });
+
 
 
     }

@@ -18,15 +18,12 @@ table = dynamodb.Table(dynamodbTableName)
 
 getMethod = 'GET'
 postMethod = 'POST'
-#patchMethod = 'PATCH'
 deleteMethod = 'DELETE'
 vitalsPath = '/vitals'
 patientPath = '/patient'
 
 
-
-
-def vitals(event, contest):
+def patientdetails(event, contest):
 
    # logger.info(event)
     #httpMethod = event.get('operation')
@@ -34,22 +31,22 @@ def vitals(event, contest):
 
     json_data = json.loads(event['body'])
     httpMethod = json_data['operation']
-    vitals_data = json_data['payload']
+    patient_data = json_data['payload']
     
     #clientdata_dict = json.loads(json_data.read().decode('utf-8'))
 
     #print(json_data['NRIC'])
     if httpMethod == 'Get':
-        response = getVitals(vitals_data['NRIC'])
+        response = getPxDetails(patient_data['NRIC'])
     elif httpMethod == 'Put' :
-        response = saveVitals(vitals_data)
+        response = savePxDetails(patient_data)
     else:
         response = buildResponse(404, 'Operation Not Found')
 
     return response
 
 
-def getVitals(patientId):
+def getPxDetails(patientId):
     try:
         response = table.query(
             KeyConditionExpression=Key('NRIC').eq(patientId)
@@ -59,14 +56,14 @@ def getVitals(patientId):
             if response['Items']:
                 return buildResponse(200, response['Items'])
             else:
-                return buildResponse(404, {'Message': 'Patient Vital/s not found' })
+                return buildResponse(404, {'Message': 'Patient not found' })
         else:
-            return buildResponse(404, {'Message': 'Patient Vital/s not found' })
+            return buildResponse(404, {'Message': 'Patient not found' })
     except:
         logger.exception('Log it here for now')
 
 
-def saveVitals(requestBody):
+def savePxDetails(requestBody):
     try:
         table.put_item(Item=requestBody)
         body = {
@@ -94,12 +91,3 @@ def buildResponse(statusCode, body=None):
     return response
 
 
-
-# from decimal import Decimal
-
-# class CustomEncoder(json.JSONEncoder):
-#     def default(self, obj):
-#         if isinstance(obj, Decimal):
-#             return float(obj)
-
-#         return json.JSONEncoder.default(self, obj)
