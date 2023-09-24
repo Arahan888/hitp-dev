@@ -38,18 +38,7 @@ export class apigwStack extends cdk.Stack {
       })
       const pxdetails = HITPPatientDetailsAPI.root.addResource('patientdetails');
       pxdetails.addMethod('POST');
-      //vitals.addMethod('PUT');
-
-      // const HITPRetrieveVitalsAPI = new apigw.LambdaRestApi(this, 'hitpretrievepatientvitalsapiid-'+stagename, {
-      //   handler: RetrieveVitalsLambda,
-      //   restApiName: 'HITPRetrievePatientVitalsAPI-'+stagename,
-      //   deploy: true,
-      //   proxy: false,
-        
-  
-      // })
-      // const savevitals = HITPRetrieveVitalsAPI.root.addResource('vitals');
-      // savevitals.addMethod('GET');      
+     
 
     
   }     
