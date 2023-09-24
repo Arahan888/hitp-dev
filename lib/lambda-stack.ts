@@ -26,8 +26,8 @@ export class lambdaStack extends cdk.Stack {
    const getExistingVpc = ec2.Vpc.fromLookup(this, `VPC-${stagename}`, { vpcName: `HITP-${stagename}` });
   
 
-    const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaRetrieveExecutionRole-${stagename}`, {
-      roleName        : `lambdaRetrieveExecutionRole-${stagename}`,
+    const lambdaVPCExecutionRole = new iam.Role(this, `createLambdaGenericExecutionRole-${stagename}`, {
+      roleName        : `lambdaGenericExecutionRole-${stagename}`,
       assumedBy       : new iam.ServicePrincipal(`lambda.amazonaws.com`),
       description     : `Lambda service role to operate within a VPC`,
   });
