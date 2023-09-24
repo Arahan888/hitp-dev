@@ -11,8 +11,6 @@ export class apigwStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: HITPStackProps) {
       super(scope, id, props);
       const stagename = props?.stage || 'default';
-
-
   
     const PatientVitalsLambda = lambda.Function.fromFunctionName(this, "patientvitalsLambda", "lambdahitppatientvitals-"+stagename);
     const PatientDetailsLambda = lambda.Function.fromFunctionName(this, "patientdetailsLambda", "lambdahitppatientdetails-"+stagename);
