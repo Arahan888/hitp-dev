@@ -23,8 +23,6 @@ export class s3Stack extends cdk.Stack {
        // publicReadAccess: false,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
         autoDeleteObjects: true,
-        
-        
       });
   
       const s3UnitTestData = new s3.Bucket(this, 's3unittestdataid-'+stagename,{

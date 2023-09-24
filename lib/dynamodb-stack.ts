@@ -91,6 +91,7 @@ export interface HITPStackProps extends cdk.StackProps {
       writePatientDetailsScaling.scaleOnUtilization({
         targetUtilizationPercent: 70
       })
+      
       writePatientDetailsScaling.scaleOnSchedule('ScaleUpInMorning', {
         schedule: appScaling.Schedule.cron({hour: '5', minute: '30'}),
         maxCapacity: 10,
