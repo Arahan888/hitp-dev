@@ -9,13 +9,13 @@ import { apigwStack } from '../lib/apigw-stack';
 import { dynamodbStack } from '../lib/dynamodb-stack';
 
 const app = new cdk.App();
-// new HitpDevStack(app, 'HitpDevStack', {
+new HitpDevStack(app, 'HitpDevStack', {
 
-//   env: { account: '612547137591', region: 'ap-southeast-1' },
+  env: { account: '612547137591', region: 'ap-southeast-1' },
 
-// });
+});
 
-new lambdaStack(app, 'lambdaStack', {stage:'test', env: { account: '612547137591', region: 'ap-southeast-1' }});
-new apigwStack(app, 'apigwStack', {stage:'test', env: { account: '612547137591', region: 'ap-southeast-1' }});
-new s3Stack(app, 's3stack', {stage:'test', env: { account: '612547137591', region: 'ap-southeast-1' }});
-new dynamodbStack(app, 'dynamodbStack', {stage:'test', env: { account: '612547137591', region: 'ap-southeast-1' }});
+// new lambdaStack(app, 'lambdaStack', {stage:'test', env: { account: '612547137591', region: 'ap-southeast-1' }});
+// new apigwStack(app, 'apigwStack', {stage:'test', env: { account: '612547137591', region: 'ap-southeast-1' }});
+// new s3Stack(app, 's3stack', {stage:'test', env: { account: '612547137591', region: 'ap-southeast-1' }});
+// new dynamodbStack(app, 'dynamodbStack', {stage:'test', env: { account: '612547137591', region: 'ap-southeast-1' }});

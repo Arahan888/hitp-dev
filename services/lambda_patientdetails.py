@@ -37,7 +37,9 @@ def patientdetails(event, contest):
 
     #print(json_data['NRIC'])
     if httpMethod == 'Get':
-        response = getPxDetails(patient_data['NRIC'])
+        response = getPxDetails(patient_data['CLINICCODE'], patient_data['NRIC'])
+    elif httpMethod == 'GetList':
+        response = getPxList(patient_data['CLINICCODE'])        
     elif httpMethod == 'Put' :
         response = savePxDetails(patient_data)
     else:
@@ -46,10 +48,27 @@ def patientdetails(event, contest):
     return response
 
 
-def getPxDetails(patientId):
+def getPxList(cliniccode):
     try:
         response = table.query(
-            KeyConditionExpression=Key('NRIC').eq(patientId)
+            KeyConditionExpression=Key('CLINICCODE').eq(cliniccode)
+        )
+        
+        if 'Items' in response:
+            if response['Items']:
+                return buildResponse(200, response['Items'])
+            else:
+                return buildResponse(404, {'Message': 'No patient not found' })
+        else:
+            return buildResponse(404, {'Message': 'No patient not found' })
+    except:
+        logger.exception('Log it here for now')
+
+
+def getPxDetails(cliniccode, patientId):
+    try:
+        response = table.query(
+            KeyConditionExpression=Key('CLINICCODE').eq(cliniccode) & Key('NRIC').eq(patientId)
         )
         
         if 'Items' in response:

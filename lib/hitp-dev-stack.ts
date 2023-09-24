@@ -12,7 +12,7 @@ export class HitpDevStack extends cdk.Stack {
     super(scope, id, props);
 
     const hitppipeline = new CodePipeline(this, 'Pipeline', {
-      pipelineName: 'HITPPipeline',
+      pipelineName: 'HITPCICDPipeline',
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.gitHub('Arahan888/hitp-dev', 'main', {authentication: SecretValue.secretsManager('devgithub', {
           jsonField: 'devgithub'

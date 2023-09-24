@@ -77,7 +77,8 @@ export interface HITPStackProps extends cdk.StackProps {
       const dynamodbPatientDetails = new dynamodb.Table(this, 'patientdetailsid-'+stagename, {
         readCapacity:3,
         writeCapacity:3,
-        partitionKey:{name:'NRIC',type:dynamodb.AttributeType.STRING},
+        partitionKey:{name:'CLINICCODE',type:dynamodb.AttributeType.STRING},
+        sortKey:{name:'NRIC',type:dynamodb.AttributeType.STRING},
         tableName: 'patientdetails-'+stagename,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
       });
