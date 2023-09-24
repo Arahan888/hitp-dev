@@ -14,8 +14,8 @@ export class apigwStack extends cdk.Stack {
 
 
   
-    const PatientVitalsLambda = lambda.Function.fromFunctionName(this, "patientvitalsLambda", "lambdapatientvitals-"+stagename);
-    const PatientDetailsLambda = lambda.Function.fromFunctionName(this, "patientdetailsLambda", "lambdapatientdetails-"+stagename);
+    const PatientVitalsLambda = lambda.Function.fromFunctionName(this, "patientvitalsLambda", "lambdahitppatientvitals-"+stagename);
+    const PatientDetailsLambda = lambda.Function.fromFunctionName(this, "patientdetailsLambda", "lambdahitppatientdetails-"+stagename);
 
     //API Gateway
     const HITPVitalsAPI = new apigw.LambdaRestApi(this, 'hitppatientvitalsapiid-'+stagename, {

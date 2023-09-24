@@ -80,11 +80,11 @@ export class lambdaStack extends cdk.Stack {
 
 
 
-    const lambdavitals = new lambda.Function(this, `lambdapatientvitalsid-${stagename}`, {
+    const lambdavitals = new lambda.Function(this, `lambdahitppatientvitalsid-${stagename}`, {
       handler:'lambda_vitals.vitals',
       runtime: lambda.Runtime.PYTHON_3_11,
       code: lambda.Code.fromAsset('./services/'),
-      functionName: `lambdapatientvitals-${stagename}`,
+      functionName: `lambdahitppatientvitals-${stagename}`,
       role: lambdaVPCExecutionRole,
      // vpc:getExistingTestVpc,
      vpc: getExistingVpc,
@@ -106,11 +106,11 @@ export class lambdaStack extends cdk.Stack {
     metric:lambdavitals.metricErrors(), 
   });
 
-    const lambdapatientdetails = new lambda.Function(this, `lambdapatientdetailsid-${stagename}`, {
+    const lambdapatientdetails = new lambda.Function(this, `lambdahitppatientdetailsid-${stagename}`, {
       handler:'lambda_patientdetails.patientdetails',
       runtime: lambda.Runtime.PYTHON_3_11,
       code: lambda.Code.fromAsset('./services/'),
-      functionName: `lambdapatientdetails-${stagename}`,
+      functionName: `lambdahitppatientdetails-${stagename}`,
       role: lambdaVPCExecutionRole,
      // vpc:getExistingTestVpc,
      vpc: getExistingVpc,
